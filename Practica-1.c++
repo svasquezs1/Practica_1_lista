@@ -31,8 +31,10 @@ void promedioimparlista(Nodo *);
 void mayorlista(Nodo *);
 //prototipo de funcion mostar menor
 void menorlista(Nodo *);
+//prototipo de funcion mostrar repetidos
+void mostrarrepertlista(Nodo *);
 //prototipo de funcion eliminar duplicado
-void duplicadolista(Nodo *&, int);
+void duplicadolista(Nodo *&);
 
 Nodo *lista = NULL;
 //----------------------------------------------------------------------------------------
@@ -67,7 +69,7 @@ void mostrarlista(Nodo *lista){
     actual = lista;
 
     while (actual !=NULL){
-        cout<<actual ->dato <<"->";
+        cout<<actual ->dato <<"-> ";
         actual = actual->siguiente;
     } 
 }
@@ -89,9 +91,9 @@ void buscarlista(Nodo *lista, int buscar){
         actual = actual ->siguiente;
     }
     if (band == true){
-        cout<<"El ELEMENTO: " <<buscar <<" SI SE ENCUENTRA" <<endl;
+        cout<<"\nEl ELEMENTO: " <<buscar <<" SI SE ENCUENTRA" <<endl;
     }else{
-        cout<<"El ELEMENTO: " <<buscar <<" NO SE ENCUENTRA" <<endl;
+        cout<<"\nEl ELEMENTO: " <<buscar <<" NO SE ENCUENTRA" <<endl;
     }   
 }
 
@@ -117,17 +119,57 @@ void eliminarlista(Nodo *&lista,int borrar){
         else if(anterior == NULL){
             lista == lista->siguiente;
             delete aux_Borrar;
+            cout<<"\nEl elemento fue eliminado correctamente";
         }
         //cuando no el es primer elemento a eliminar
         else{
             anterior->siguiente = aux_Borrar->siguiente;
             delete aux_Borrar;
+            cout<<"\nEl elemento fue eliminado correctamente";
         }
     }
 }
 //----------------------------------------------------------------------------------------
 //creacion de un nuevo nodo promedio par lista
-
+void promedioparlista(Nodo *lista){
+    Nodo *actual = new Nodo();
+    actual = lista;
+    double suma = 0;
+    double contador = 0;
+    while (actual != NULL) {
+        if (actual->dato % 2 == 0) {
+            suma += actual->dato;
+            contador++;
+        }
+        actual = actual->siguiente;
+    }
+    if (contador == 0) {
+        cout << "\nNo hay numeros pares " << endl;
+    }else {
+        cout << "\nEl promedio de los números pares es: " << suma / contador << endl;
+    }
+}
+//----------------------------------------------------------------------------------------
+//creacion de un nuevo nodo promedio impares lista
+void promedioimparlista(Nodo *lista) {
+    Nodo *actual = new Nodo();
+    actual = lista;
+    double suma = 0;
+    double contador = 0;
+    while (actual != NULL) {
+        if (actual->dato % 2 != 0) {
+            suma += actual->dato;
+            contador++;
+        }
+        actual = actual->siguiente;
+    }
+    if (contador == 0) {
+        cout <<"\nNo hay números impares" << endl;
+        
+    }else {
+        cout <<"\nEl promedio de los números impares es: " << suma / contador<< endl;
+    }
+}
 //----------------------------------------------------------------------------------------
 //creacion de un nuevo nodo menor lista
 void menorlista(Nodo *lista){
@@ -153,14 +195,54 @@ void mayorlista(Nodo *lista){
     cout<<mayor;
 }
 //----------------------------------------------------------------------------------------
-//creacion de un nuevo nodo eliminar duplicado lista
-void duplicadolista(Nodo *lista,int n){
-    Nodo *aux = lista;
-    n = aux ->dato;
-    lista = aux -> siguiente;
-    delete aux;
-    
+//creacion de un nuevo nodo mostar elementos repetidos de la lista
+void mostrarrepertlista(Nodo *lista){
+    Nodo *actual = new Nodo();
+    actual = lista;
+    Nodo *siguiente = new Nodo();
+    siguiente = actual->siguiente;
+    while ((actual != NULL)&&(siguiente != NULL)) {
+        if (actual->dato == siguiente->dato) {
+            cout <<"\nEl elemento " << siguiente->dato<< " se encuentra repetido";
+        }
+        actual = actual->siguiente;
+        siguiente = actual->siguiente;
+    }
 }
+//----------------------------------------------------------------------------------------
+//creacion de un nuevo nodo eliminar duplicado lista
+void duplicadolista(Nodo *&lista){
+    if (lista != NULL){
+        Nodo *actual = new Nodo();
+        actual = lista;
+        Nodo *actual2 = new Nodo();
+        actual2 = actual->siguiente;
+        
+        while((actual != NULL)&&(actual2 != NULL)){
+            if (actual->dato == actual2->dato){
+                delete actual;
+                actual = actual -> siguiente;
+                actual2 = actual -> siguiente;
+            }else{
+                actual = actual->siguiente;
+                actual2 = actual->siguiente;
+            }
+        }
+        cout<<"\nLos elemento repetidos fueron eliminados correctamente";
+    }
+}   
+    
+ /*   
+    while ((actual != NULL)&&(siguiente != NULL)){
+        if (actual->dato == siguiente->dato) {
+            delete siguiente;
+        }
+        actual = actual->siguiente;
+        siguiente = actual->siguiente;
+    }
+    cout<<"\nLos elemento repetidos fueron eliminados correctamente";
+}
+*/
 //----------------------------------------------------------------------------------------
 //creacion de nodo menu 
 void menu(){
@@ -209,12 +291,24 @@ void menu(){
                 break;
 
             case 4:
-                // eliminar elemrnto de la lista
+                // eliminar elementos de la lista
                 cout<<"\n QUE ELEMENTO DECEAS ELIMINAR: "; cin>>dato;
                 eliminarlista(lista,dato);
                 cout<<"\n";
                 break;
-
+                
+            case 5:
+                //calcular promedio de los numero pares
+                promedioparlista(lista);
+                cout<<"\n";
+                break;
+                
+            case 6:
+                //calcular promedio de los numeros impares
+                promedioimparlista(lista);
+                cout<<"\n";
+                break;
+                
             case 7:
                 //calcular menor elemento de la lista
                 cout<<"\nEL MENOR ELEMENTO DE LA LISTA ES: ";
@@ -228,12 +322,25 @@ void menu(){
                 mayorlista(lista);
                 cout<<"\n";
                 break;
+                
+            case 9:
+                //elementos repetidos de la lista
+                mostrarrepertlista(lista);
+                cout<<"\n";
+                break;
             
             case 10:
-                //eliminar elementos repetidos
-                cout<<"\nLOS ELEMENTOS SE ELIMINARON CORRECTAMENTE ";
-                duplicadolista(lista, dato);
+                //eliminar elementos repetidos de la lista
+                duplicadolista(lista);
                 cout<<"\n";
+                break;
+            
+            case 11:
+                cout<<"\n    👋  bye 👋  bye 👋";
+                break;
+                
+            default :
+                cout << "\n ☞ ERROR, INGRESA UNA OPCION VALIDA" << endl;
                 break;
         }
     } while (cont != 11);
@@ -244,4 +351,4 @@ int main(){
 
     menu();
     return 0;
-}   
+} 
