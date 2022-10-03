@@ -14,7 +14,7 @@ struct Nodo{
 };
 
 //prototipo de funcion insertar
-void insertarlista(Nodo *&, int); //* & cuando queremos asignar un nuevo valor  a la lista 
+void insertarlista(Nodo *&, int);
 //prototipo de funcion mostrar
 void mostrarlista(Nodo *, int);
 //prototipo de funcion menu
@@ -231,18 +231,6 @@ void duplicadolista(Nodo *&lista){
         cout<<"\nLos elemento repetidos fueron eliminados correctamente";
     }
 }   
-    
- /*   
-    while ((actual != NULL)&&(siguiente != NULL)){
-        if (actual->dato == siguiente->dato) {
-            delete siguiente;
-        }
-        actual = actual->siguiente;
-        siguiente = actual->siguiente;
-    }
-    cout<<"\nLos elemento repetidos fueron eliminados correctamente";
-}
-*/
 //----------------------------------------------------------------------------------------
 //creacion de nodo menu 
 void menu(){
